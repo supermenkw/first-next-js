@@ -47,10 +47,6 @@ export default function Products({ products }) {
     setIsLoading(false)
   }
 
-  const handleLoadMoreProducts = () => {
-    console.log 
-  }
-
   useEffect(() => {
     if(currentPage !== 1) handleGetProducts(currentPage)
   }, [currentPage])
@@ -65,8 +61,17 @@ export default function Products({ products }) {
           </Col>
           <hr className='solid solid mt-2'></hr>
         </Row>
-        <Row>
-          Box
+        <Row className='box-filter'>
+          <Col>
+            <Stack direction='horizontal' className='mb-2' gap={2}>
+              <p style={{ width: '90%' }}>Rating 4 ke atas</p>
+              <input className="form-check-input float-end rounded-0" style={{ width: '10%' }} type="checkbox"/>
+            </Stack>
+            <Stack direction='horizontal' gap={2}>
+              <p style={{ width: '90%' }}>Stock tersedia</p>
+              <input className="form-check-input float-end rounded-0" style={{ width: '10%' }} type="checkbox" />
+            </Stack>
+          </Col>
         </Row>
       </Col>
       <Col style={{ maxWidth: '2rem' }}></Col>
@@ -84,9 +89,8 @@ export default function Products({ products }) {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                  <Dropdown.Item href="#/action-1">Terbaru</Dropdown.Item>
+                  <Dropdown.Item href="#/action-1">Termurah</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Stack>
@@ -96,7 +100,7 @@ export default function Products({ products }) {
         <Row>
           <ListProducts dataProducts={dataProducts} />
           <Col sm={12} className='d-flex justify-content-center align-items-center mb-4'>
-            <Button variant='success' disabled={isLoading}
+            <Button variant='success' className='rounded-btn w-50' disabled={isLoading}
               onClick={() => {
                 setIsLoading(true)
                 setCurrentPage(d => d + 1)

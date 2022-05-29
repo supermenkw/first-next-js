@@ -23,3 +23,123 @@
   background-color: #e7246b;
   border: none;
 }
+
+.flipping-card-ribbon {
+  width: 110px;
+  height: 110px;
+  position: absolute;
+  overflow: hidden;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  text-align: right;
+}
+.flipping-card-ribbon>span {
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    line-height: 50px;
+    display: block;
+    width: 111px;
+    position: absolute;
+    top: -55px;
+    left: 28px;
+    background-color: #fdbe0f;
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -ms-transform-origin: left bottom;
+    -webkit-transform-origin: left bottom;
+    transform-origin: left bottom;
+    -webkit-box-shadow: 0 3px 6px 0 rgba(0,0,0,0.15);
+    -moz-box-shadow: 0 3px 6px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,0.15);
+    height: 55px;
+    border-radius: 0.5rem;
+}
+
+.flipping-card-ribbon pre {
+  display: block;
+  margin-top: -50px;
+  overflow: auto;
+  font-size: .875em;
+}
+
+.card__overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  visibility: none;
+  transition: .5s ease;
+  border-radius: 0.5rem;
+  z-index: 1;
+}
+
+.card:hover .sold-out-overlay {
+  background-color: #D8D8D8;
+  opacity: 0.5;
+}
+
+.card:hover .available-overlay {
+  background-color: #649C1A;
+  opacity: 0.8;
+}
+
+.card:hover .in-stock-hover {
+  color: #fff !important;
+  transition: .5s ease;
+}
+
+.stock-label {
+  font-size: 14px;
+  font-weight: 600 ;
+}
+
+.overlay__text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+.button-view-detail {
+  border: 1px #fff solid;
+  background: none;
+  width: 80%;
+}
+
+.button-view-detail:hover {
+  background: #fff;
+  color: #649C1A;
+  border: none;
+}
+
+.rounded-btn {
+  border-radius: 1.5rem;
+}
+
+.box-filter {
+  color: #888888;
+  border: 1px #D8D8D8 solid;
+  padding: 20px 5px 20px 5px;
+  border-radius: 0.5rem;
+}
+
+/* .footer-container {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+} */
