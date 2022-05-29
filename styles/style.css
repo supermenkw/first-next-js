@@ -1,0 +1,25 @@
+
+.product-img-on-list {
+  height: 20rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.wish-listed {
+  background-color: #e7246b;
+  border: none;
+  border-radius: 1.5rem;
+  width: 4rem;
+}
+
+.unwishlist {
+  background-color: #fff;
+  border: 1px #E1E1E1 solid;
+  border-radius: 1.5rem;
+  width: 4rem;
+}
+
+.wish-listed:hover, .unwishlist:hover {
+  background-color: #e7246b;
+  border: none;
+}
