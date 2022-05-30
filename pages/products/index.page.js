@@ -10,16 +10,15 @@ import {
 } from 'react-bootstrap'
 import { toast } from 'react-toastify';
 import ListProducts from './sections/ListProducts';
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+import { BASE_URL } from '../../constants/GlobalConstant';
 
 export async function getStaticProps() {
   const res = await fetch(`${BASE_URL}/gifts?page[number]=1&page[size]=9`)
-  const productJson = await res.json()
+  const productsData = await res.json()
 
   return {
     props: {
-      products: productJson
+      products: productsData
     }
   }
 }
@@ -27,8 +26,11 @@ export async function getStaticProps() {
 export default function Products({ products }) {
   // State
   const [dataProducts, setDataProducts] = useState(products?.data)
+  const [filteredData, setFilteredData] = useState([])
   const [currentPage, setCurrentPage] = useState(products?.meta?.currentPage)
   const [isLoading, setIsLoading] = useState(false)
+  const [isFilteredByRating, setIsFilteredByRating] = useState(false)
+  const [isFilteredByStock, setIsFilteredByStock] = useState(false)
 
   const handleGetProducts = async (page = 1, size = 6) => {
     const product = await GetProducts(page, size)
@@ -36,8 +38,6 @@ export default function Products({ products }) {
     if(product.status === 200) {
       const temp = [...dataProducts]
       const concatedData = temp.concat(product.data.data)
-
-      console.log(concatedData)
 
       setDataProducts(concatedData)
     } else {
@@ -65,11 +65,79 @@ export default function Products({ products }) {
           <Col>
             <Stack direction='horizontal' className='mb-2' gap={2}>
               <p style={{ width: '90%' }}>Rating 4 ke atas</p>
-              <input className="form-check-input float-end rounded-0" style={{ width: '10%' }} type="checkbox"/>
+              <input className="form-check-input float-end rounded-0" style={{ width: '10%' }} checked={isFilteredByRating} type="checkbox" 
+                onClick={() => {
+                  const val = !isFilteredByRating
+                  const filterStockStatus = isFilteredByStock
+
+                  if(val && filteredData.length === 0) {
+                    const tempData = [...dataProducts]
+                    const filtered = tempData.filter(d => d.attributes.rating > 4)
+  
+                    setFilteredData(filtered)
+                    setIsFilteredByRating(val)
+                  } else if(val && filteredData.length !== 0) {
+                    const tempData = [...filteredData]
+                    const filtered = tempData.filter(d => {
+
+                      if(filterStockStatus) return d.attributes.rating > 4 && d.attributes.stock > 0
+                      else return d.attributes.rating > 4
+                    })
+  
+                    setFilteredData(filtered)
+                    setIsFilteredByRating(val)
+                  } else if(!val && filterStockStatus && filteredData.length !== 0) {
+                    const tempData = [...dataProducts]
+                    const filtered = tempData.filter(d => {
+
+                      return d.attributes.stock > 0
+                    })
+  
+                    setFilteredData(filtered)
+                    setIsFilteredByRating(val)
+                  } else {
+                    setFilteredData([])
+                    setIsFilteredByRating(val)
+                  }
+                }}/>
             </Stack>
             <Stack direction='horizontal' gap={2}>
               <p style={{ width: '90%' }}>Stock tersedia</p>
-              <input className="form-check-input float-end rounded-0" style={{ width: '10%' }} type="checkbox" />
+              <input className="form-check-input float-end rounded-0" style={{ width: '10%' }} checked={isFilteredByStock} type="checkbox" 
+                 onClick={() => {
+                  const val = !isFilteredByStock
+                  const filterRatingStatus = isFilteredByRating
+
+                  if(val && filteredData.length === 0) {
+                    const tempData = [...dataProducts]
+                    const filtered = tempData.filter(d => d.attributes.stock > 0)
+  
+                    setFilteredData(filtered)
+                    setIsFilteredByStock(val)
+                  } else if(val && filteredData.length !== 0) {
+                    const tempData = [...filteredData]
+                    const filtered = tempData.filter(d => {
+
+                      if(filterRatingStatus) return d.attributes.rating > 4 && d.attributes.stock > 0
+                      else return d.attributes.stock > 0
+                    })
+  
+                    setFilteredData(filtered)
+                    setIsFilteredByStock(val)
+                  } else if(!val && filterRatingStatus && filteredData.length !== 0) {
+                    const tempData = [...dataProducts]
+                    const filtered = tempData.filter(d => {
+
+                      return d.attributes.rating > 4
+                    })
+  
+                    setFilteredData(filtered)
+                    setIsFilteredByStock(val)
+                  } else {
+                    setFilteredData([])
+                    setIsFilteredByStock(val)
+                  }
+                }}/>
             </Stack>
           </Col>
         </Row>
@@ -98,12 +166,14 @@ export default function Products({ products }) {
           <hr className='solid mt-2'></hr>
         </Row>
         <Row>
-          <ListProducts dataProducts={dataProducts} />
+          <ListProducts dataProducts={filteredData.length !== 0 ? filteredData : dataProducts} setDataProducts={setDataProducts} />
           <Col sm={12} className='d-flex justify-content-center align-items-center mb-4'>
             <Button variant='success' className='rounded-btn w-50' disabled={isLoading}
               onClick={() => {
                 setIsLoading(true)
                 setCurrentPage(d => d + 1)
+                setIsFilteredByRating(false)
+                setIsFilteredByStock(false)
               }}
             >
               {

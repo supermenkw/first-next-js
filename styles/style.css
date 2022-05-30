@@ -19,7 +19,7 @@
   width: 4rem;
 }
 
-.wish-listed:hover, .unwishlist:hover {
+.wish-listed:hover, .unwishlist:hover  {
   background-color: #e7246b;
   border: none;
 }
@@ -135,6 +135,62 @@
   border: 1px #D8D8D8 solid;
   padding: 20px 5px 20px 5px;
   border-radius: 0.5rem;
+}
+
+.btn-plus-minus {
+  background-color: #f2f2f4;
+  border: none;
+}
+
+.btn-plus-minus:hover {
+  background-color: #d3d3d3;
+  border: none;
+}
+
+.btn-plus-minus:focus {
+  background-color: #d3d3d3;
+  border: none;
+}
+
+.current-qty {
+  color: #525F7F;
+  font-size: 16px;
+}
+
+.flex-right-wrapper button {
+  display: flex;
+  margin-left: 10px !important;
+}
+
+.flex-left-wrapper * {
+  display: flex;
+  margin-right: 50px;
+}
+
+.tab-item {
+  padding: 10px 0px;
+  font-weight: 600;
+  color: #BCBCBC;
+  cursor: pointer;
+}
+
+.tab-item.active{
+  padding: 10px 0px 0px 0px;
+  font-weight: 900;
+  color: #74B71B;
+  cursor: pointer;
+}
+
+.tab-item.active::after{
+  content: "";
+  display: block; /* This will put the pseudo element on its own line. */ /* This will center the border. */
+  border-bottom: solid 4px #74B71B;
+  padding-top: 15px; /* This creates some space between the element and the border. */
+  width: 100%;
+}
+
+.active {
+  display: block !important;
 }
 
 /* .footer-container {

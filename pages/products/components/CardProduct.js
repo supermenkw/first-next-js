@@ -9,8 +9,10 @@ import Image from 'next/image';
 import PointImage from '../../../assets/image/Group 2752.png'
 import { SOLD_OUT } from '../../../constants/GlobalConstant';
 import Link from 'next/link';
+import { PostWishlistProduct } from '../../../data/products';
+import { toast } from 'react-toastify';
 
-export default function CardProduct({ item, stockStatus, ribbonStatus, ratingStatus }) {
+export default function CardProduct({ item, stockStatus, ribbonStatus, ratingStatus, setDataProducts, data, index }) {
 
   return <Col sm={6} md={4} xxl={3} className='d-flex justify-content-center mb-4'>
     <Card style={{ width: '18rem', padding: '0.8rem', borderRadius: '0.5rem' }}>
@@ -43,7 +45,7 @@ export default function CardProduct({ item, stockStatus, ribbonStatus, ratingSta
       <Card.Img variant="top" className='product-img-on-list' src={item?.attributes?.images[0]} />
       <Card.Body className='ps-0 pe-0'>
         <Card.Title style={{ fontSize: '16px' }}>{item?.attributes?.name}</Card.Title>
-        <Stack direction="horizontal" gap={3}>
+        <Stack direction="horizontal" gap={2}>
           <div style={{ width: '70%' }}>
             <div style={{ color: '#74B71B', fontSize: '14px' }}>
               <Image 
@@ -51,13 +53,35 @@ export default function CardProduct({ item, stockStatus, ribbonStatus, ratingSta
                 alt='point image'
               /> {' '}
               {item?.attributes?.points} points</div>
-            <Stack direction="horizontal" gap={2}>
-              {ratingStatus} {' '}
-              <p style={{ fontSize: '12px', color: '#838EAB', marginTop: '10px' }}>{item?.attributes?.numOfReviews} reviews</p>
+            <Stack direction="horizontal" gap={1} className='mt-2'>
+              {ratingStatus}
+              <p style={{ fontSize: '12px', color: '#838EAB' }}>{item?.attributes?.numOfReviews} reviews</p>
             </Stack>
           </div>
           <div style={{ width: '30%', zIndex: 2 }}>
-            <Button className={item?.attributes?.isWishlist === 1 ? 'wish-listed' : 'unwishlist'}>
+            <Button className={item?.attributes?.isWishlist === 1 ? 'wish-listed' : 'unwishlist'}
+              onClick={() => {
+                const tempData= [...data]
+                const val = item?.attributes?.isWishlist === 1 ? 0 : 1
+
+                PostWishlistProduct(item.id)
+
+                if(val == 1) toast.success('successfully added to wish list')
+                else toast.success('successfully remove to wish list')  
+
+                const newVal = {
+                  ...tempData[index],
+                  attributes: {
+                    ...tempData[index].attributes,
+                    isWishlist: val
+                  }
+                }
+
+                tempData[index] = newVal
+
+                setDataProducts(tempData)
+              }}
+            >
             {
               item?.attributes?.isWishlist === 1 ?
               <FaRegHeart size={20} />
