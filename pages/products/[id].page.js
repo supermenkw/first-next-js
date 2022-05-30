@@ -20,8 +20,6 @@ import { PostWishlistProduct } from "../../data/products";
 import { toast } from "react-toastify";
 
 export default function Products({ detailProducts }) {
-  const router = useRouter()
-  const { id } = router.query
   const [detailData, setDetailData] = useState(detailProducts?.data?.attributes)
   const stockStatus = defineStock(parseInt(detailProducts?.data?.attributes.stock))
   const ribbonVal = renderRibbonLabel(detailProducts?.data?.attributes.isNew, detailProducts?.data?.attributes.rating, detailProducts?.data?.attributes.stock, detailProducts?.data?.attributes.numOfReviews)
@@ -165,7 +163,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true
+    fallback: false
   }
 }
 
